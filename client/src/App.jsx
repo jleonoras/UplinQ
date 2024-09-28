@@ -47,8 +47,8 @@ function App() {
     <div className="box">
       <h1>GDrive2Cloud</h1>
       <p>
-        This web app allows you to upload movie files to Filemoon, Vidhide, and
-        Streamwish.
+        This web app allows you to remote/url upload movie files from GDrive to
+        Filemoon, Vidhide, and Streamwish.
       </p>
 
       {/* Input field and button hidden if generatedLink is present */}

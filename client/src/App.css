@@ -6,6 +6,8 @@ body {
   align-items: center; /* Center items vertically */
   justify-content: center; /* Center items horizontally */
   height: 100vh; /* Full height of the viewport */
+  padding: 10px; /* Add some padding to avoid overflow */
+  box-sizing: border-box; /* Include padding in the total height */
 }
 
 .box {
@@ -18,7 +20,7 @@ body {
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   max-width: 400px; /* Limit the width of the box */
-  width: 100%; /* Full width on smaller screens */
+  width: 100%; /* Full width to allow responsiveness */
   margin: 0 auto; /* Center the box horizontally */
 }
 
@@ -26,6 +28,7 @@ h1 {
   margin: 0 0 10px;
   font-size: 24px; /* Title font size */
   color: #333; /* Dark color for the title */
+  text-align: center; /* Center the title */
 }
 
 p {
@@ -85,4 +88,46 @@ button:hover {
 
 .dots {
   display: inline-block; /* Align the dots inline */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px; /* Adjust title size for smaller screens */
+  }
+
+  p {
+    font-size: 14px; /* Adjust description size for smaller screens */
+  }
+
+  input[type="text"],
+  button {
+    font-size: 14px; /* Smaller font size for inputs and buttons */
+    padding: 8px; /* Less padding for smaller screens */
+  }
+
+  .box {
+    padding: 15px; /* Less padding for the box on smaller screens */
+    width: 90%; /* Ensure box width is responsive */
+  }
+}
+
+@media (max-width: 360px) {
+  h1 {
+    font-size: 18px; /* Further adjust title size */
+  }
+
+  p {
+    font-size: 12px; /* Further adjust description size */
+  }
+
+  input[type="text"],
+  button {
+    font-size: 12px; /* Smaller font size for inputs and buttons */
+    padding: 6px; /* Less padding for smaller screens */
+  }
+
+  .box {
+    padding: 10px; /* Less padding for the box on very small screens */
+  }
 }
