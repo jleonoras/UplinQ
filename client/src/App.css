@@ -1,96 +1,88 @@
-/* App.css */
 body {
-  margin: 0; /* Remove default margin */
-  height: 100vh; /* Full height for the body */
-  display: flex; /* Use Flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  background-color: #f0f0f0; /* Optional: background color for contrast */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0; /* Background color for the whole page */
+  display: flex; /* Use flexbox for centering */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  height: 100vh; /* Full height of the viewport */
 }
 
-.App {
+.box {
   display: flex;
-  flex-direction: column; /* Align items vertically */
-  justify-content: center; /* Center vertically within the container */
-  align-items: center; /* Center horizontally within the container */
-  text-align: center; /* Center text */
-  padding: 20px; /* Add some padding around */
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  padding: 20px;
+  background-color: #fff; /* White background for the box */
   border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  background: white; /* White background for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 400px; /* Limit the width of the box */
+  width: 100%; /* Full width on smaller screens */
+  margin: 0 auto; /* Center the box horizontally */
 }
 
 h1 {
-  font-size: 2em; /* Size of the title */
-  color: #333; /* Dark color for visibility */
-  margin: 0; /* Remove default margin */
+  margin: 0 0 10px;
+  font-size: 24px; /* Title font size */
+  color: #333; /* Dark color for the title */
 }
 
 p {
-  font-size: 1.2em; /* Size of the description */
-  color: #555; /* Lighter color for the description */
-  margin: 10px 0 20px; /* Add some margin for spacing */
+  margin: 0 0 20px; /* Space below the description */
+  text-align: center; /* Center the description text */
+  color: #666; /* Medium gray color for the description */
 }
 
 input[type="text"] {
-  margin: 10px 0; /* Add some spacing */
-  padding: 10px; /* Padding for better input appearance */
-  width: 300px; /* Set a fixed width for input */
-  border: 1px solid #ccc; /* Add border */
+  width: calc(100% - 20px); /* Full width input, accounting for padding */
+  padding: 10px; /* Inner spacing */
+  margin-bottom: 10px; /* Space below the input */
+  border: 1px solid #ccc; /* Border for the input */
   border-radius: 4px; /* Rounded corners */
+  box-sizing: border-box; /* Ensure padding is included in total width */
 }
 
 button {
-  margin: 10px 0; /* Add spacing between buttons */
-  padding: 10px 20px; /* Padding for better button appearance */
-  cursor: pointer; /* Change cursor to pointer */
-  border: none; /* Remove border */
-  background-color: #007bff; /* Button background color */
-  color: white; /* Text color */
+  width: 100%; /* Full width button */
+  padding: 10px; /* Inner spacing */
+  border: none; /* Remove default border */
   border-radius: 4px; /* Rounded corners */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  font-size: 16px; /* Button font size */
+  cursor: pointer; /* Pointer on hover */
+  margin-top: 10px; /* Space above the button */
 }
 
-button:disabled {
-  background-color: #ccc; /* Disabled button style */
+button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 .result {
-  margin-top: 20px; /* Add some space above result */
-  width: 100%; /* Full width for the result section */
-  display: flex; /* Use Flexbox to align content */
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Center the elements */
+  margin-top: 20px; /* Space above the result section */
+  text-align: center; /* Center the result section */
 }
 
-.copy-button {
-  margin-top: 10px; /* Ensure space between the input and the button */
+.generated-link {
+  width: calc(100% - 20px); /* Full width input for generated link */
+  padding: 10px; /* Inner spacing */
+  margin-bottom: 10px; /* Space below the generated link input */
+  border: 1px solid #ccc; /* Border for the generated link input */
+  border-radius: 4px; /* Rounded corners */
+  box-sizing: border-box; /* Ensure padding is included in total width */
 }
 
-/* Bouncing dots animation */
+.copy-button,
+.new-link-button {
+  background-color: #28a745; /* Green button for copy link */
+}
+
+.copy-button:hover,
+.new-link-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
 .dots {
-  display: inline-block; /* Make sure dots are inline */
-}
-
-.dots span {
-  display: inline-block; /* Ensure each dot is an inline block */
-  animation: bounce 1s infinite; /* Animation for bouncing dots */
-  font-size: 24px; /* Adjust the font size of dots */
-}
-
-.dots span:nth-child(2) {
-  animation-delay: 0.2s; /* Delay for second dot */
-}
-
-.dots span:nth-child(3) {
-  animation-delay: 0.4s; /* Delay for third dot */
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0); /* Original position */
-  }
-  50% {
-    transform: translateY(-8px); /* Bouncing effect */
-  }
+  display: inline-block; /* Align the dots inline */
 }

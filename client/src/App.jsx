@@ -1,14 +1,20 @@
 import { useState } from "react";
 import "./App.css";
 
-const App = () => {
+function App() {
   const [viewUrl, setViewUrl] = useState("");
-  const [remoteUploadLink, setRemoteUploadLink] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleGenerate = async () => {
-    setLoading(true);
-    setRemoteUploadLink(""); // Clear the previous link
+  const handleGenerateLink = async () => {
+    if (!viewUrl) {
+      alert("Please enter a Google Drive link.");
+      return;
+    }
+
+    setIsLoading(true);
+    setGeneratedLink(""); // Clear the previous generated link
+
     try {
       const response = await fetch("http://localhost:5000/api/convert", {
         method: "POST",
@@ -17,59 +23,82 @@ const App = () => {
         },
         body: JSON.stringify({ viewUrl }),
       });
-      const data = await response.json();
-      if (response.ok) {
-        setRemoteUploadLink(data.remoteUploadLink);
-      } else {
-        alert(data.error || "An error occurred");
+
+      if (!response.ok) {
+        throw new Error("Failed to generate link");
       }
+
+      const data = await response.json();
+      setGeneratedLink(data.remoteUploadLink); // Set the new generated link
     } catch (error) {
-      alert("Failed to generate link. Error: " + error.message);
+      console.error("Error generating link:", error);
+      alert("Error generating link. Please try again.");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(remoteUploadLink);
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(generatedLink);
     alert("Link copied to clipboard!");
   };
 
   return (
-    <div className="App">
+    <div className="box">
       <h1>GDrive2Cloud</h1>
       <p>
-        Upload movies from Google Drive directly to Filemoon, Vidhide, and
-        Streamwish!
+        This web app allows you to upload movie files to Filemoon, Vidhide, and
+        Streamwish.
       </p>
-      <input
-        type="text"
-        value={viewUrl}
-        onChange={(e) => setViewUrl(e.target.value)}
-        placeholder="Enter Google Drive view URL"
-      />
-      <button onClick={handleGenerate} disabled={loading}>
-        {loading ? (
-          <div className="dots">
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-          </div>
-        ) : (
-          "Generate Remote Upload Link"
-        )}
-      </button>
-      {remoteUploadLink && (
+
+      {/* Input field and button hidden if generatedLink is present */}
+      {!generatedLink && (
+        <>
+          <input
+            type="text"
+            placeholder="Enter Google Drive link..."
+            value={viewUrl}
+            onChange={(e) => setViewUrl(e.target.value)}
+          />
+          <button onClick={handleGenerateLink} disabled={isLoading}>
+            {isLoading ? (
+              <span className="dots">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </span>
+            ) : (
+              "Generate Upload Link"
+            )}
+          </button>
+        </>
+      )}
+
+      {/* Display the generated link and related buttons */}
+      {generatedLink && (
         <div className="result">
-          <p>Generated Remote Upload Link:</p>
-          <input type="text" value={remoteUploadLink} readOnly />
-          <button onClick={handleCopy} className="copy-button">
+          <input
+            type="text"
+            className="generated-link"
+            value={generatedLink}
+            readOnly
+          />
+          <button className="copy-button" onClick={handleCopyLink}>
             Copy Link
+          </button>
+          <button
+            className="new-link-button"
+            onClick={() => {
+              setGeneratedLink(""); // Clear the generated link
+              setViewUrl(""); // Clear the input URL
+            }}
+          >
+            Generate New Link
           </button>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default App;
