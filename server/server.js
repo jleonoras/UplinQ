@@ -3,15 +3,16 @@ import cors from "cors";
 import { getDownloadLink } from "./utils/linkConverter.js";
 import { scrape } from "./utils/scrape.js";
 import { getRemoteUploadLink } from "./utils/createRemoteUploadLink.js";
-import "dotenv/config";
 
 const app = express();
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: "*",
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type",
 };
 
-const host = process.env.HOST;
-const port = process.env.PORT;
+const host = "localhost";
+const port = 5000;
 
 app.use(cors(corsOptions));
 

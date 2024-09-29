@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios"; // Import Axios
 import "./App.css";
 
 function App() {
@@ -16,22 +17,21 @@ function App() {
     setGeneratedLink(""); // Clear the previous generated link
 
     try {
-      const response = await fetch("http://localhost:5000/api/convert", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "/api/convert",
+        {
+          viewUrl,
         },
-        body: JSON.stringify({ viewUrl }),
-      });
+        {
+          headers: {
+            "Content-Type": "application/json", // Specify that you're sending JSON
+          },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error("Failed to generate link");
-      }
-
-      const data = await response.json();
-      setGeneratedLink(data.remoteUploadLink); // Set the new generated link
+      setGeneratedLink(response.data.remoteUploadLink); // Set the new generated link
     } catch (error) {
-      console.error("Error generating link:", error);
+      console.error("Error generating link: ", error);
       alert("Error generating link. Please try again.");
     } finally {
       setIsLoading(false);
