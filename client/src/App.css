@@ -131,3 +131,8 @@ button:hover {
     padding: 10px; /* Less padding for the box on very small screens */
   }
 }
+
+.small-description {
+  font-size: 0.8rem; /* Adjust the size as needed */
+  color: #666; /* Optional: change the text color */
+}

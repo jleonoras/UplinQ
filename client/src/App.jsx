@@ -47,8 +47,14 @@ function App() {
     <div className="box">
       <h1>GDrive2Cloud</h1>
       <p>
-        This web app allows you to remote/url upload movie files from GDrive to
-        Filemoon, Vidhide, and Streamwish.
+        Easily Generate Direct Download Links from Google Drive and Upload to
+        Filemoon, Vidhide, and Streamwish via Remote URL.
+      </p>
+      <p className="small-description">
+        This tool converts Google Drive view URLs into direct download links,
+        enabling seamless remote uploads to popular video hosting platforms like
+        Filemoon, Vidhide, and Streamwish. Perfect for quickly sharing large
+        files, especially movie uploads.
       </p>
 
       {/* Input field and button hidden if generatedLink is present */}
