@@ -1,138 +1,162 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0; /* Background color for the whole page */
-  display: flex; /* Use flexbox for centering */
-  align-items: center; /* Center items vertically */
-  justify-content: center; /* Center items horizontally */
-  height: 100vh; /* Full height of the viewport */
-  padding: 10px; /* Add some padding to avoid overflow */
-  box-sizing: border-box; /* Include padding in the total height */
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .box {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
+  align-items: center;
+  justify-content: center;
   padding: 20px;
-  background-color: #fff; /* White background for the box */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  max-width: 400px; /* Limit the width of the box */
-  width: 100%; /* Full width to allow responsiveness */
-  margin: 0 auto; /* Center the box horizontally */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 h1 {
   margin: 0 0 10px;
-  font-size: 24px; /* Title font size */
-  color: #333; /* Dark color for the title */
-  text-align: center; /* Center the title */
+  font-size: 24px;
+  color: #333;
+  text-align: center;
 }
 
 p {
-  margin: 0 0 20px; /* Space below the description */
-  text-align: center; /* Center the description text */
-  color: #666; /* Medium gray color for the description */
+  margin: 0 0 20px;
+  text-align: center;
+  color: #666;
 }
 
 input[type="text"] {
-  width: calc(100% - 20px); /* Full width input, accounting for padding */
-  padding: 10px; /* Inner spacing */
-  margin-bottom: 10px; /* Space below the input */
-  border: 1px solid #ccc; /* Border for the input */
-  border-radius: 4px; /* Rounded corners */
-  box-sizing: border-box; /* Ensure padding is included in total width */
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: transparent; /* Clear background */
+  color: #333; /* Text color */
+}
+
+input[type="text"]::placeholder {
+  color: #aaa; /* Placeholder text color */
 }
 
 button {
-  width: 100%; /* Full width button */
-  padding: 10px; /* Inner spacing */
-  border: none; /* Remove default border */
-  border-radius: 4px; /* Rounded corners */
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
   background-color: #007bff; /* Button background color */
-  color: white; /* Button text color */
-  font-size: 16px; /* Button font size */
-  cursor: pointer; /* Pointer on hover */
-  margin-top: 10px; /* Space above the button */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #aaa; /* Gray background for disabled state */
+  cursor: not-allowed;
 }
 
 .result {
-  margin-top: 20px; /* Space above the result section */
-  text-align: center; /* Center the result section */
+  margin-top: 20px;
+  text-align: center;
 }
 
 .generated-link {
-  width: calc(100% - 20px); /* Full width input for generated link */
-  padding: 10px; /* Inner spacing */
-  margin-bottom: 10px; /* Space below the generated link input */
-  border: 1px solid #ccc; /* Border for the generated link input */
-  border-radius: 4px; /* Rounded corners */
-  box-sizing: border-box; /* Ensure padding is included in total width */
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .copy-button,
 .new-link-button {
-  background-color: #28a745; /* Green button for copy link */
+  background-color: #28a745;
 }
 
 .copy-button:hover,
 .new-link-button:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838;
 }
 
 .dots {
-  display: inline-block; /* Align the dots inline */
+  display: inline-block;
+}
+
+/* Fix for Light Mode: Ensure button is visible */
+@media (prefers-color-scheme: light) {
+  button {
+    background-color: #007bff; /* Ensure it's visible in light mode */
+    color: white; /* Keep text color white */
+  }
+
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
 }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 480px) {
   h1 {
-    font-size: 20px; /* Adjust title size for smaller screens */
+    font-size: 20px;
   }
 
   p {
-    font-size: 14px; /* Adjust description size for smaller screens */
+    font-size: 14px;
   }
 
   input[type="text"],
   button {
-    font-size: 14px; /* Smaller font size for inputs and buttons */
-    padding: 8px; /* Less padding for smaller screens */
+    font-size: 14px;
+    padding: 8px;
   }
 
   .box {
-    padding: 15px; /* Less padding for the box on smaller screens */
-    width: 90%; /* Ensure box width is responsive */
+    padding: 15px;
+    width: 90%;
   }
 }
 
 @media (max-width: 360px) {
   h1 {
-    font-size: 18px; /* Further adjust title size */
+    font-size: 18px;
   }
 
   p {
-    font-size: 12px; /* Further adjust description size */
+    font-size: 12px;
   }
 
   input[type="text"],
   button {
-    font-size: 12px; /* Smaller font size for inputs and buttons */
-    padding: 6px; /* Less padding for smaller screens */
+    font-size: 12px;
+    padding: 6px;
   }
 
   .box {
-    padding: 10px; /* Less padding for the box on very small screens */
+    padding: 10px;
   }
 }
 
 .small-description {
-  font-size: 0.8rem; /* Adjust the size as needed */
-  color: #666; /* Optional: change the text color */
+  font-size: 0.8rem;
+  color: #666;
 }
