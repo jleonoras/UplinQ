@@ -19,6 +19,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+if (process.env.NODE_ENV === "development") {
+  console.log("Environment:", process.env.NODE_ENV);
+}
+
 app.get("/api", (req, res) => {
   res.send("<h1 style='text-align: center'>GDrive2Cloud API</h1>");
 });
