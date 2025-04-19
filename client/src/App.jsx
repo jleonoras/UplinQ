@@ -6,10 +6,16 @@ function App() {
   const [viewUrl, setViewUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleGenerateLink = async () => {
-    if (!viewUrl) {
-      alert("Please enter a Google Drive link.");
+    const isValidDriveUrl =
+      /^(https:\/\/)?(drive\.google\.com\/(file\/d\/|open\?id=))/.test(
+        viewUrl.trim()
+      );
+    if (!viewUrl.trim() || !isValidDriveUrl) {
+      alert("Please enter a valid Google Drive view URL.");
+      setIsLoading(false); // stop loading if triggered accidentally
       return;
     }
 
@@ -40,7 +46,8 @@ function App() {
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(generatedLink);
-    alert("Link copied to clipboard!");
+    setCopied(true); // Show "Copied!"
+    setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
   };
 
   return (
@@ -62,9 +69,10 @@ function App() {
         <>
           <input
             type="text"
-            placeholder="Enter Google Drive link..."
             value={viewUrl}
             onChange={(e) => setViewUrl(e.target.value)}
+            placeholder="Enter Google Drive view URL..."
+            disabled={isLoading}
           />
           <button onClick={handleGenerateLink} disabled={isLoading}>
             {isLoading ? (
@@ -89,8 +97,11 @@ function App() {
             value={generatedLink}
             readOnly
           />
-          <button className="copy-button" onClick={handleCopyLink}>
-            Copy Link
+          <button
+            onClick={handleCopyLink}
+            className={`copy-button ${copied ? "copied" : ""}`}
+          >
+            {copied ? "✅ Copied!" : "Copy Link"}
           </button>
           <button
             className="new-link-button"
