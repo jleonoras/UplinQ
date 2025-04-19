@@ -2,34 +2,34 @@
 import puppeteer from "puppeteer";
 
 export const scrape = async (downloadUrl) => {
+  let browser;
+
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
+    await page.goto(downloadUrl, { waitUntil: "networkidle0", timeout: 15000 });
 
-    // Go to the download URL and wait for the page to load
-    await page.goto(downloadUrl, { waitUntil: "networkidle0" });
-
-    // Extract data from the page
     const fileValues = await page.evaluate(() => {
       const nameData = ["id", "export", "authuser", "confirm", "uuid", "at"];
       const allValues = {};
 
       nameData.forEach((name) => {
-        const inputData = document.querySelector(`input[name="${name}"]`);
-        if (inputData) {
-          allValues[name] = inputData.value;
-        }
+        const input = document.querySelector(`input[name="${name}"]`);
+        if (input) allValues[name] = input.value;
       });
 
       return allValues;
     });
 
-    await browser.close();
+    if (Object.keys(fileValues).length === 0) {
+      throw new Error("No input fields found on the page");
+    }
 
-    // Return scraped data
     return fileValues;
   } catch (error) {
     console.error("Error in scrape:", error.message);
     throw error;
+  } finally {
+    if (browser) await browser.close();
   }
 };

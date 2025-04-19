@@ -27,7 +27,9 @@ const corsOptions = {
   allowedHeaders: ["Content-Type"],
 };
 
-const host = process.env.HOST || "0.0.0.0";
+const host =
+  process.env.NODE_ENV === "development" ? process.env.HOST : "0.0.0.0";
+
 const port = process.env.PORT || 7000;
 
 app.use(cors(corsOptions));
