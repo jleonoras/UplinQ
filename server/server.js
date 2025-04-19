@@ -8,8 +8,7 @@ import { getRemoteUploadLink } from "./utils/createRemoteUploadLink.js";
 const app = express();
 
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production" ? "https://dev.sinemo.sbs" : "*",
+  origin: "*",
   methods: "GET,POST",
   allowedHeaders: "Content-Type",
 };
