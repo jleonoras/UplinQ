@@ -3,17 +3,31 @@ import cors from "cors";
 import { getDownloadLink } from "./utils/linkConverter.js";
 import { scrape } from "./utils/scrape.js";
 import { getRemoteUploadLink } from "./utils/createRemoteUploadLink.js";
+import rateLimit from "express-rate-limit";
 import "dotenv/config";
 
 const app = express();
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production" ? "https://dev.sinemo.sbs" : "*",
-  methods: "GET,POST",
-  allowedHeaders: "Content-Type",
+  origin: (origin, callback) => {
+    const allowedOrigins = ["https://dev.sinemo.sbs"];
+
+    // In development, allow all origins
+    if (process.env.NODE_ENV === "development") {
+      callback(null, true);
+    } else {
+      // In production, only allow the specified origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    }
+  },
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
 };
 
-const host = process.env.HOST || "localhost";
+const host = process.env.HOST || "0.0.0.0";
 const port = process.env.PORT || 7000;
 
 app.use(cors(corsOptions));
@@ -33,11 +47,25 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.get("/api/health", (req, res) => {
-  res.send("OK");
+  res.json({
+    status: "ok",
+    environment: process.env.NODE_ENV || "development",
+    timestamp: new Date().toLocaleString(),
+  });
+});
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  handler: (req, res) => {
+    res.status(429).json({
+      error: "Too many requests from this IP. Try again later.",
+    });
+  },
 });
 
 // API endpoint to convert and scrape
-app.post("/api/convert", async (req, res) => {
+app.post("/api/convert", limiter, async (req, res) => {
   const { viewUrl } = req.body;
 
   if (!viewUrl) {
@@ -61,6 +89,10 @@ app.post("/api/convert", async (req, res) => {
       remoteUploadLink, // Include the formatted remote upload link
     });
   } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error details:", error);
+    }
+
     res.status(500).json({ error: error.message });
   }
 });
