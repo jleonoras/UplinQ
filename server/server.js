@@ -7,7 +7,8 @@ import "dotenv/config";
 
 const app = express();
 const corsOptions = {
-  origin: "*",
+  origin:
+    process.env.NODE_ENV === "production" ? "https://dev.sinemo.sbs" : "*",
   methods: "GET,POST",
   allowedHeaders: "Content-Type",
 };
