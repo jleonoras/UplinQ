@@ -13,8 +13,8 @@ const corsOptions = {
   allowedHeaders: "Content-Type",
 };
 
-const host = process.env.HOST || "localhost";
-const port = process.env.PORT || 6000;
+const host = "localhost";
+const port = 5000;
 
 app.use(cors(corsOptions));
 
