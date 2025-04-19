@@ -25,8 +25,15 @@ if (process.env.NODE_ENV === "development") {
   console.log("Environment:", process.env.NODE_ENV);
 }
 
-app.get("/api", (req, res) => {
-  res.send("<h1 style='text-align: center'>GDrive2Cloud API</h1>");
+if (process.env.NODE_ENV === "development") {
+  app.use((req, res, next) => {
+    console.log(`Request received: ${req.method} ${req.url}`);
+    next();
+  });
+}
+
+app.get("/api/health", (req, res) => {
+  res.send("OK");
 });
 
 // API endpoint to convert and scrape
