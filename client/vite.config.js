@@ -5,6 +5,8 @@ import react from "@vitejs/plugin-react";
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
+  const serverHost = env.VITE_API_HOST_PROD; // now available for use
+
   const apiHost =
     mode === "development"
       ? env.VITE_API_HOST_DEV
@@ -22,6 +24,9 @@ export default ({ mode }) => {
   }
 
   return defineConfig({
+    define: {
+      __API_HOST__: JSON.stringify(serverHost),
+    },
     plugins: [react()],
     server: {
       proxy: {

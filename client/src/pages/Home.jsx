@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios"; // Import Axios
 import "../App.css";
 
+const API_BASE = import.meta.env.VITE_API_HOST_PROD || "/api";
+
 const Home = () => {
   const [viewUrl, setViewUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
@@ -24,7 +26,7 @@ const Home = () => {
 
     try {
       const response = await axios.post(
-        "/api/convert",
+        `${API_BASE}/convert`,
         {
           viewUrl,
         },
