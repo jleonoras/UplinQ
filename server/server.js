@@ -16,7 +16,7 @@ const corsOptions = {
     ];
 
     // In development, allow all origins
-    if (process.env.NODE_ENV_DEV === "development") {
+    if (process.env.NODE_ENV === "development") {
       callback(null, true);
     } else {
       // In production, only allow the specified origins
@@ -37,10 +37,18 @@ const host =
 const port = process.env.PORT || 7000;
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+if (process.env.NODE_ENV === "development") {
+  app.use((err, req, res, next) => {
+    if (err instanceof Error && err.message === "Not allowed by CORS") {
+      console.warn("⚠️ CORS blocked a request:", req.headers.origin);
+    }
+    next(err);
+  });
+}
 
 if (process.env.NODE_ENV === "development") {
   console.log("Environment:", process.env.NODE_ENV);
@@ -117,5 +125,5 @@ app.post("/api/convert", limiter, async (req, res) => {
 });
 
 app.listen(port, host, () => {
-  console.log(`Server has started and running on http://${host}:${port}`);
+  console.log(`Server has started and running on ${host}:${port}`);
 });

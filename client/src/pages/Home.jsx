@@ -2,7 +2,25 @@ import { useState } from "react";
 import axios from "axios"; // Import Axios
 import "../App.css";
 
-const API_BASE = import.meta.env.VITE_API_HOST_PROD || "/api";
+const getApiBaseUrl = () => {
+  const isDev = import.meta.env.MODE === "development";
+  const host = isDev
+    ? import.meta.env.VITE_API_HOST_DEV
+    : import.meta.env.VITE_API_HOST_PROD;
+
+  const port = isDev
+    ? import.meta.env.VITE_API_PORT_DEV
+    : import.meta.env.VITE_API_PORT_PROD;
+
+  const cleanedHost = host.replace(/\/+$/, "");
+  const hasPort = port && port !== "443" && port !== "80";
+
+  return `${cleanedHost}${hasPort ? `:${port}` : ""}/api`;
+};
+
+const API_BASE = getApiBaseUrl();
+
+console.log(API_BASE);
 
 const Home = () => {
   const [viewUrl, setViewUrl] = useState("");
