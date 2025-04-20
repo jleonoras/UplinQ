@@ -52,17 +52,18 @@ function App() {
 
   return (
     <div className="box">
-      <h1>GDrive2Cloud</h1>
+      <h1>UplinQ</h1>
       <p>
-        Easily Generate Direct Download Links from Google Drive and Upload to
-        Filemoon, Vidhide, and Streamwish via Remote URL.
+        Quickly turn Google Drive view links into direct downloads and remote
+        upload them to Filemoon, EarnVids, or Streamwish — perfect for sharing
+        large videos.
       </p>
-      <p className="small-description">
+      {/* <p className="small-description">
         This tool converts Google Drive view URLs into direct download links,
         enabling seamless remote uploads to popular video hosting platforms like
-        Filemoon, Vidhide, and Streamwish. Perfect for quickly sharing large
+        Filemoon, EarnVids, and Streamwish. Perfect for quickly sharing large
         files, especially movie uploads.
-      </p>
+      </p> */}
 
       {/* Input field and button hidden if generatedLink is present */}
       {!generatedLink && (
@@ -82,7 +83,7 @@ function App() {
                 <span>.</span>
               </span>
             ) : (
-              "Generate Upload Link"
+              "🔗 Generate Upload Link"
             )}
           </button>
         </>
@@ -101,7 +102,7 @@ function App() {
             onClick={handleCopyLink}
             className={`copy-button ${copied ? "copied" : ""}`}
           >
-            {copied ? "✅ Copied!" : "Copy Link"}
+            {copied ? "✅ Copied!" : "📋 Copy Link"}
           </button>
           <button
             className="new-link-button"
@@ -110,7 +111,7 @@ function App() {
               setViewUrl(""); // Clear the input URL
             }}
           >
-            Generate New Link
+            🚀 Generate New Link
           </button>
         </div>
       )}
