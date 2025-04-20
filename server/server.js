@@ -32,9 +32,7 @@ const corsOptions = {
 };
 
 const host =
-  process.env.NODE_ENV === "development"
-    ? process.env.HOST_DEV
-    : process.env.HOST_PROD;
+  process.env.NODE_ENV === "development" ? process.env.HOST : "0.0.0.0";
 
 const port = process.env.PORT || 7000;
 
