@@ -12,7 +12,7 @@ const corsOptions = {
     const allowedOrigins = ["https://dev.sinemo.sbs"];
 
     // In development, allow all origins
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV_DEV === "development") {
       callback(null, true);
     } else {
       // In production, only allow the specified origins
@@ -28,7 +28,9 @@ const corsOptions = {
 };
 
 const host =
-  process.env.NODE_ENV === "development" ? process.env.HOST : "0.0.0.0";
+  process.env.NODE_ENV === "development"
+    ? process.env.HOST_DEV
+    : process.env.HOST_PROD;
 
 const port = process.env.PORT || 7000;
 
