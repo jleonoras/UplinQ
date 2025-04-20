@@ -5,7 +5,6 @@ import { scrape } from "./utils/scrape.js";
 import { getRemoteUploadLink } from "./utils/createRemoteUploadLink.js";
 import rateLimit from "express-rate-limit";
 import "dotenv/config";
-import bodyParser from "body-parser";
 
 const app = express();
 const corsOptions = {
@@ -28,7 +27,7 @@ const corsOptions = {
       }
     }
   },
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 };
 
@@ -40,6 +39,7 @@ const host =
 const port = process.env.PORT || 7000;
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
