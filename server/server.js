@@ -40,7 +40,6 @@ const host =
 const port = process.env.PORT || 7000;
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
