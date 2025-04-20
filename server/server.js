@@ -9,7 +9,11 @@ import "dotenv/config";
 const app = express();
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = ["https://dev.sinemo.sbs"];
+    const allowedOrigins = [
+      "https://dev.sinemo.sbs",
+      "https://uplinq.streamojo.eu.org",
+      "https://uplinq.vercel.app",
+    ];
 
     // In development, allow all origins
     if (process.env.NODE_ENV_DEV === "development") {
