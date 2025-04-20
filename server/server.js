@@ -5,6 +5,7 @@ import { scrape } from "./utils/scrape.js";
 import { getRemoteUploadLink } from "./utils/createRemoteUploadLink.js";
 import rateLimit from "express-rate-limit";
 import "dotenv/config";
+import bodyParser from "body-parser";
 
 const app = express();
 const corsOptions = {
