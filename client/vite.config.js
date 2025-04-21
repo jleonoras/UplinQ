@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
-  const serverHost = env.VITE_API_HOST_PROD; // now available for use
+  const serverHost = env.VITE_API_HOST_PROD;
 
   const apiHost =
     mode === "development"

@@ -13,9 +13,11 @@ const getApiBaseUrl = () => {
     : import.meta.env.VITE_API_PORT_PROD;
 
   const cleanedHost = host.replace(/\/+$/, "");
+  const hasProtocol = /^https?:\/\//.test(cleanedHost);
+  const fullHost = hasProtocol ? cleanedHost : `http://${cleanedHost}`;
   const hasPort = port && port !== "443" && port !== "80";
 
-  return `${cleanedHost}${hasPort ? `:${port}` : ""}/api`;
+  return `${fullHost}${hasPort ? `:${port}` : ""}/api`;
 };
 
 const API_BASE = getApiBaseUrl();
@@ -56,6 +58,14 @@ const Home = () => {
       setGeneratedLink(response.data.remoteUploadLink); // Set the new generated link
     } catch (error) {
       console.error("Error generating link: ", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Status code:", error.response.status);
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+      } else {
+        console.error("Error setting up request:", error.message);
+      }
       alert("Error generating link. Please try again.");
     } finally {
       setIsLoading(false);
