@@ -37,6 +37,7 @@ export default ({ mode }) => {
         "/api": {
           target: apiUrl,
           changeOrigin: true,
+          secure: false,
         },
       },
     },
