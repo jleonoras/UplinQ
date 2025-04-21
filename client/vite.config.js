@@ -18,6 +18,10 @@ export default ({ mode }) => {
   const apiProtocol = apiPort === "443" ? "https" : "http";
   const apiUrl = `${apiProtocol}://${apiHost}:${apiPort}`;
 
+  if (!apiHost || !apiPort) {
+    throw new Error("Missing API host or port in environment variables.");
+  }
+
   if (mode === "development") {
     console.log("VITE config mode:", mode);
     console.log("Proxying /api to:", apiUrl);
@@ -33,7 +37,6 @@ export default ({ mode }) => {
         "/api": {
           target: apiUrl,
           changeOrigin: true,
-          secure: false,
         },
       },
     },

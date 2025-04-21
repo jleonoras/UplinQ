@@ -1,16 +1,18 @@
 // utils/linkConverter.js
+
 export function getDownloadLink(viewUrl) {
   try {
     const url = new URL(viewUrl);
 
-    if (url.pathname.startsWith("/file/d/")) {
-      const pathParts = url.pathname.split("/");
+    // Clean trailing slashes from pathname, then split
+    const cleanPath = url.pathname.replace(/\/+$/, "");
+    const pathParts = cleanPath.split("/");
+
+    // Extract the file ID from the URL path
+    if (pathParts[1] === "file" && pathParts[2] === "d" && pathParts[3]) {
       const fileId = pathParts[3];
       const authuser = new URLSearchParams(url.search).get("authuser") || "0";
-      return `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=${authuser}`;
-    } else if (url.pathname === "/open" && url.searchParams.has("id")) {
-      const fileId = url.searchParams.get("id");
-      const authuser = url.searchParams.get("authuser") || "0";
+
       return `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=${authuser}`;
     } else {
       throw new Error("File ID not found in the URL.");

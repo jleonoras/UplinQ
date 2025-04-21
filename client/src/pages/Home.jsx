@@ -20,8 +20,6 @@ const getApiBaseUrl = () => {
 
 const API_BASE = getApiBaseUrl();
 
-console.log(API_BASE);
-
 const Home = () => {
   const [viewUrl, setViewUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");

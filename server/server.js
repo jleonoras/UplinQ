@@ -109,8 +109,14 @@ app.post("/api/convert", limiter, async (req, res) => {
     // Generate the remote upload link, without 'at' if it's undefined
     const remoteUploadLink = getRemoteUploadLink(downloadLink, scrapedData);
 
+    // ✅ Success log (only in development)
+    if (process.env.NODE_ENV === "development") {
+      console.log("Conversion successful");
+    }
+
     // Send back the results
     res.json({
+      message: "Conversion successful ✅",
       downloadLink,
       scrapedData,
       remoteUploadLink, // Include the formatted remote upload link
