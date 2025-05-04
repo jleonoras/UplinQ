@@ -1,36 +1,13 @@
 // utils/scrape.js
 import puppeteer from "puppeteer";
 
-let browser;
-
-async function getBrowser() {
-  if (!browser) {
-    browser = await puppeteer.launch({
-      headless: "new",
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--single-process",
-        "--no-zygote",
-      ],
-    });
-  }
-  return browser;
-}
-
 export const scrape = async (downloadUrl) => {
-  let page;
+  let browser;
 
   try {
-    browser = await getBrowser();
-    page = await browser.newPage();
-
-    await page.goto(downloadUrl, {
-      waitUntil: "networkidle0",
-      timeout: 15000,
-    });
+    browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.goto(downloadUrl, { waitUntil: "networkidle0", timeout: 15000 });
 
     const fileValues = await page.evaluate(() => {
       const nameData = ["id", "export", "authuser", "confirm", "uuid", "at"];
@@ -53,6 +30,6 @@ export const scrape = async (downloadUrl) => {
     console.error("Error in scrape:", error.message);
     throw error;
   } finally {
-    if (page) await page.close(); // Don't close browser here to allow reuse
+    if (browser) await browser.close();
   }
 };

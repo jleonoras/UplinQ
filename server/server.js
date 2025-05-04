@@ -31,21 +31,20 @@ const corsOptions = {
   allowedHeaders: ["Content-Type"],
 };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 const host =
   process.env.NODE_ENV === "development" ? process.env.HOST : "0.0.0.0";
 
 const port = process.env.PORT || 7000;
 
+app.use(cors(corsOptions));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 if (process.env.NODE_ENV === "development") {
   app.use((err, req, res, next) => {
     if (err instanceof Error && err.message === "Not allowed by CORS") {
-      console.warn("CORS blocked a request:", req.headers.origin);
+      console.warn("⚠️ CORS blocked a request:", req.headers.origin);
     }
     next(err);
   });
@@ -131,12 +130,6 @@ app.post("/api/convert", limiter, async (req, res) => {
   }
 });
 
-const isProduction = process.env.NODE_ENV === "production";
-const protocol =
-  isProduction || port === "443" || port === 443 ? "https" : "http";
-
 app.listen(port, host, () => {
-  console.log(
-    `Server has started and running at ${protocol}://${host}:${port}`
-  );
+  console.log(`Server has started and running on ${host}:${port}`);
 });
