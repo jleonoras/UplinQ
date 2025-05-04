@@ -86,6 +86,13 @@ const Home = () => {
         upload them to Filemoon, EarnVids, or Streamwish — perfect for sharing
         large videos.
       </p>
+      {/* <p className="small-description">
+          This tool converts Google Drive view URLs into direct download links,
+          enabling seamless remote uploads to popular video hosting platforms like
+          Filemoon, EarnVids, and Streamwish. Perfect for quickly sharing large
+          files, especially movie uploads.
+        </p> */}
+
       {/* Input field and button hidden if generatedLink is present */}
       {!generatedLink && (
         <>

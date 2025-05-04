@@ -54,9 +54,5 @@ export const scrape = async (downloadUrl) => {
     throw error;
   } finally {
     if (page) await page.close(); // Don't close browser here to allow reuse
-
-    process.on("exit", async () => {
-      if (browser) await browser.close(); // on full shutdown
-    });
   }
 };
