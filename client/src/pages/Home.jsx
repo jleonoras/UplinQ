@@ -1,148 +1,72 @@
-import { useState } from "react";
-import axios from "axios"; // Import Axios
+import LinkForm from "../components/LinkForm";
+import { motion } from "framer-motion";
+import { Rocket, UploadCloud, Link as LinkIcon, File } from "lucide-react";
 import "../App.css";
 
-const getApiBaseUrl = () => {
-  const isDev = import.meta.env.MODE === "development";
-  const host = isDev
-    ? import.meta.env.VITE_API_HOST_DEV
-    : import.meta.env.VITE_API_HOST_PROD;
-
-  const port = isDev
-    ? import.meta.env.VITE_API_PORT_DEV
-    : import.meta.env.VITE_API_PORT_PROD;
-
-  const cleanedHost = host.replace(/\/+$/, "");
-  const hasProtocol = /^https?:\/\//.test(cleanedHost);
-  const fullHost = hasProtocol ? cleanedHost : `http://${cleanedHost}`;
-  const hasPort = port && port !== "443" && port !== "80";
-
-  return `${fullHost}${hasPort ? `:${port}` : ""}/api`;
-};
-
-const API_BASE = getApiBaseUrl();
-
 const Home = () => {
-  const [viewUrl, setViewUrl] = useState("");
-  const [generatedLink, setGeneratedLink] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleGenerateLink = async () => {
-    const isValidDriveUrl =
-      /^(https:\/\/)?(drive\.google\.com\/(file\/d\/|open\?id=))/.test(
-        viewUrl.trim()
-      );
-    if (!viewUrl.trim() || !isValidDriveUrl) {
-      alert("Please enter a valid Google Drive view URL.");
-      setIsLoading(false); // stop loading if triggered accidentally
-      return;
-    }
-
-    setIsLoading(true);
-    setGeneratedLink(""); // Clear the previous generated link
-
-    try {
-      const response = await axios.post(
-        `${API_BASE}/convert`,
-        {
-          viewUrl,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json", // Specify that you're sending JSON
-          },
-        }
-      );
-
-      setGeneratedLink(response.data.remoteUploadLink); // Set the new generated link
-    } catch (error) {
-      console.error("Error generating link: ", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Status code:", error.response.status);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
-        console.error("Error setting up request:", error.message);
-      }
-      alert("Error generating link. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(generatedLink);
-    setCopied(true); // Show "Copied!"
-    setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
-  };
-
   return (
-    <div className="box">
-      <h1>UplinQ</h1>
-      <p>
-        Quickly turn Google Drive view links into direct downloads and remote
-        upload them to Filemoon, EarnVids, or Streamwish — perfect for sharing
-        large videos.
-      </p>
-      {/* <p className="small-description">
-          This tool converts Google Drive view URLs into direct download links,
-          enabling seamless remote uploads to popular video hosting platforms like
-          Filemoon, EarnVids, and Streamwish. Perfect for quickly sharing large
-          files, especially movie uploads.
-        </p> */}
-
-      {/* Input field and button hidden if generatedLink is present */}
-      {!generatedLink && (
-        <>
-          <input
-            type="text"
-            value={viewUrl}
-            onChange={(e) => setViewUrl(e.target.value)}
-            placeholder="Enter Google Drive view URL..."
-            disabled={isLoading}
-          />
-          <button onClick={handleGenerateLink} disabled={isLoading}>
-            {isLoading ? (
-              <span className="dots">
-                <span>.</span>
-                <span>.</span>
-                <span>.</span>
-              </span>
-            ) : (
-              "🔗 Generate Upload Link"
-            )}
-          </button>
-        </>
-      )}
-
-      {/* Display the generated link and related buttons */}
-      {generatedLink && (
-        <div className="result">
-          <input
-            type="text"
-            className="generated-link"
-            value={generatedLink}
-            readOnly
-          />
-          <button
-            onClick={handleCopyLink}
-            className={`copy-button ${copied ? "copied" : ""}`}
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br dark:from-gray-900 dark:to-gray-900">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        className="w-full sm:w-[90%] md:w-[80%] lg:w-[60%] p-6 sm:p-8 md:p-10 bg-white dark:bg-gray-800 rounded-xl shadow-2xl transition-all duration-500 space-y-8"
+      >
+        <div className="text-center">
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="text-4xl sm:text-5xl font-extrabold text-blue-700 dark:text-blue-300 tracking-tight"
           >
-            {copied ? "✅ Copied!" : "📋 Copy Link"}
-          </button>
-          <button
-            className="new-link-button"
-            onClick={() => {
-              setGeneratedLink(""); // Clear the generated link
-              setViewUrl(""); // Clear the input URL
-            }}
-          >
-            🚀 Generate New Link
-          </button>
+            UplinQ
+            <Rocket className="inline-block w-8 h-8 ml-2 text-purple-500 dark:text-purple-400" />
+          </motion.h1>
+          <p className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mt-3">
+            <span className="font-semibold">Transform</span> Google Drive public
+            links into direct downloads and effortlessly upload to Filemoon,
+            EarnVids, or Streamwish. Share large videos with ease!
+          </p>
         </div>
-      )}
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
+        >
+          <LinkForm />
+        </motion.div>
+
+        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex flex-col items-center text-center">
+            <UploadCloud className="w-10 h-10 text-green-500 mb-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Remote Upload
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Upload files directly to hosting platforms.
+            </p>
+          </div>
+          <div className="flex flex-col items-center text-center">
+            <LinkIcon className="w-10 h-10 text-blue-500 mb-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Direct Downloads
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Generate direct download links.
+            </p>
+          </div>
+          <div className="flex flex-col items-center text-center">
+            <File className="w-10 h-10 text-purple-500 mb-2" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Large File Support
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Share large video files without hassle.
+            </p>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };
