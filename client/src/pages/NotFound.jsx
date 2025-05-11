@@ -1,3 +1,4 @@
+import { ChevronsLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
@@ -18,23 +19,7 @@ const NotFound = () => {
         className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none hover:shadow-2xl animate-fadeIn"
       >
         <span className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="size-6"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L12.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
-              clipRule="evenodd"
-            />
-            <path
-              fillRule="evenodd"
-              d="M4.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L6.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <ChevronsLeft />
           Return Home
         </span>
       </button>
