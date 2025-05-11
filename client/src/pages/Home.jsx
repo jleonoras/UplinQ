@@ -5,7 +5,7 @@ import "../App.css";
 
 const Home = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br dark:from-gray-900 dark:to-gray-900">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}

@@ -83,7 +83,7 @@ const LinkForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg">
+    <div className="w-full max-w-md mx-auto p-6 rounded-lg">
       {!generatedLink ? (
         <div className="flex flex-col gap-6">
           <input
