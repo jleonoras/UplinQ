@@ -25,7 +25,8 @@ const Home = () => {
           <p className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mt-3">
             <span className="font-semibold">Transform</span> Google Drive public
             links into direct downloads and effortlessly upload to Filemoon,
-            EarnVids, or Streamwish. Share large videos with ease!
+            EarnVids (FileLions), StreamHG (Streamwish), or SuperVideo. Share
+            large videos with ease!
           </p>
         </div>
 
