@@ -18,7 +18,7 @@ const NotFound = () => {
         onClick={() => navigate("/")}
         className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none hover:shadow-2xl animate-fadeIn"
       >
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-1">
           <ChevronsLeft />
           Return Home
         </span>

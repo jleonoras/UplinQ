@@ -73,7 +73,7 @@ const LinkForm = () => {
     navigator.clipboard.writeText(generatedLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast(<span className="flex items-center gap-2">Link Copied!</span>, {
+    toast(<span className="flex items-center gap-1">Link Copied!</span>, {
       toastId: customId,
       icon: <BadgeCheck className="stroke-green-500" />,
       position: "top-center", // Adjust position as needed
@@ -91,7 +91,7 @@ const LinkForm = () => {
       {!generatedLink ? (
         <div className="flex flex-col gap-6">
           {error && (
-            <span className="text-sm text-red-500 flex items-center gap-2">
+            <span className="text-sm text-red-500 flex items-center gap-1">
               <TriangleAlert />
               {error}
             </span>
@@ -112,7 +112,7 @@ const LinkForm = () => {
             className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-1">
                 <svg
                   className="w-5 h-5 animate-spin text-white"
                   fill="none"
@@ -135,7 +135,7 @@ const LinkForm = () => {
                 Generating...
               </span>
             ) : (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-1">
                 <Sparkles />
                 Generate Upload Link
               </span>
@@ -167,8 +167,10 @@ const LinkForm = () => {
             }}
             className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3"
           >
-            <Sparkles />
-            Generate New Link
+            <span span className="flex items-center gap-1">
+              <Sparkles />
+              Generate New Link
+            </span>
           </button>
         </div>
       )}
