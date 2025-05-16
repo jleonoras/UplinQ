@@ -45,7 +45,7 @@ const LinkForm = () => {
         viewUrl.trim()
       );
     if (!viewUrl.trim() || !isValidDriveUrl) {
-      setError("Please enter a valid Google Drive view URL.", {});
+      setError("Please enter a valid Google Drive view URL.");
       return;
     }
 
@@ -89,10 +89,16 @@ const LinkForm = () => {
   return (
     <div className="w-full max-w-md mx-auto p-6 rounded-lg">
       {!generatedLink ? (
-        <div className="flex flex-col gap-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleGenerateLink();
+          }}
+          className="flex flex-col gap-6"
+        >
           {error && (
-            <span className="text-sm text-red-500 flex items-center gap-1">
-              <TriangleAlert />
+            <span className="text-sm text-red-500 flex items-center gap-1 min-h-[1.5rem] transition-opacity duration-200 animate-fade-in">
+              <TriangleAlert className="w-4 h-4" />
               {error}
             </span>
           )}
@@ -141,7 +147,7 @@ const LinkForm = () => {
               </span>
             )}
           </button>
-        </div>
+        </form>
       ) : (
         <div className="flex flex-col gap-6">
           <div className="relative">
@@ -167,7 +173,7 @@ const LinkForm = () => {
             }}
             className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3"
           >
-            <span span className="flex items-center gap-1">
+            <span className="flex items-center gap-1">
               <Sparkles />
               Generate New Link
             </span>
