@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the CSS for Toastify
@@ -7,7 +7,6 @@ import {
   ClipboardCheck,
   ClipboardList,
   Sparkles,
-  TriangleAlert,
 } from "lucide-react";
 
 const getApiBaseUrl = () => {
@@ -36,6 +35,8 @@ const LinkForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
+
+  const inputRef = useRef(null);
 
   const customId = "custom-id-yes";
 
@@ -72,6 +73,7 @@ const LinkForm = () => {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(generatedLink);
     setCopied(true);
+    inputRef.current?.focus();
     setTimeout(() => setCopied(false), 2000);
     toast(<span className="flex items-center gap-1">Link Copied!</span>, {
       toastId: customId,
@@ -86,6 +88,9 @@ const LinkForm = () => {
     });
   };
 
+  const baseButton =
+    "px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed";
+
   return (
     <div className="w-full max-w-md mx-auto p-6 rounded-lg">
       {!generatedLink ? (
@@ -98,7 +103,6 @@ const LinkForm = () => {
         >
           {error && (
             <span className="text-sm text-red-500 flex items-center gap-1 min-h-[1.5rem] transition-opacity duration-200 animate-fade-in">
-              <TriangleAlert className="w-4 h-4" />
               {error}
             </span>
           )}
@@ -115,7 +119,7 @@ const LinkForm = () => {
           <button
             onClick={handleGenerateLink}
             disabled={isLoading}
-            className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`${baseButton} animate-fadeIn hover:scale-105 shadow-lg hover:shadow-2xl`}
           >
             {isLoading ? (
               <span className="flex items-center gap-1">
@@ -143,7 +147,7 @@ const LinkForm = () => {
             ) : (
               <span className="flex items-center gap-1">
                 <Sparkles />
-                Generate Upload Link
+                Generate Link
               </span>
             )}
           </button>
@@ -152,10 +156,11 @@ const LinkForm = () => {
         <div className="flex flex-col gap-6">
           <div className="relative">
             <input
+              ref={inputRef}
               type="text"
               value={generatedLink}
               readOnly
-              className="w-full pr-12 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white"
+              className="w-full pr-12 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             />
             <button
               onClick={handleCopyLink}
@@ -171,11 +176,11 @@ const LinkForm = () => {
               setGeneratedLink("");
               setViewUrl("");
             }}
-            className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3"
+            className={`${baseButton} animate-fadeIn hover:scale-105 shadow-lg hover:shadow-2xl`}
           >
             <span className="flex items-center gap-1">
               <Sparkles />
-              Generate New Link
+              New Link
             </span>
           </button>
         </div>

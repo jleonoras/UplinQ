@@ -3,14 +3,19 @@ import { motion } from "framer-motion";
 import { Rocket, UploadCloud, Link as LinkIcon, File } from "lucide-react";
 import "../App.css";
 
+const containerClass =
+  "flex items-center justify-center min-h-screen px-4 bg-gray-100 dark:bg-gray-700";
+const cardClass =
+  "w-full sm:w-[90%] md:w-[80%] lg:w-[60%] p-6 sm:p-8 md:p-10 bg-white dark:bg-gray-800 rounded-xl shadow-2xl space-y-8 text-center";
+
 const Home = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br">
+    <div className={containerClass}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
-        className="w-full sm:w-[90%] md:w-[80%] lg:w-[60%] p-6 sm:p-8 md:p-10 bg-white dark:bg-gray-800 rounded-xl shadow-2xl transition-all duration-500 space-y-8"
+        className={cardClass}
       >
         <div className="text-center">
           <motion.h1
