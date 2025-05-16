@@ -9,7 +9,8 @@ export const scrape = async (downloadUrl) => {
 
   try {
     browser = await puppeteer.launch({
-      headless: "new",
+      headless: true,
+      protocolTimeout: 60000, // 60 seconds
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -18,10 +19,18 @@ export const scrape = async (downloadUrl) => {
         "--disable-software-rasterizer",
         "--disable-webgl",
         "--single-process",
+        "--disable-extensions",
+        "--disable-background-networking",
+        "--disable-sync",
+        "--metrics-recording-only",
+        "--mute-audio",
+        "--no-first-run",
+        "--safebrowsing-disable-auto-update",
       ],
       ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
+    await page.setDefaultNavigationTimeout(30000); // optional but safer
 
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
