@@ -25,9 +25,9 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", healthRoutes);
+app.use("/api/health", healthRoutes);
 
-app.use("/api", convertRoutes);
+app.use("/api/convert", convertRoutes);
 
 app.listen(port, host, () => {
   console.log(`Server has started and running on ${host}:${port}`);
