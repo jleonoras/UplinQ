@@ -6,6 +6,6 @@ import { limiter } from "../middleware/limiter.js";
 
 const router = express.Router();
 
-router.post("/convert", limiter, handleConvert);
+router.post("/", limiter, handleConvert);
 
 export default router;
