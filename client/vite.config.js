@@ -9,9 +9,7 @@ export default ({ mode }) => {
   const serverHost = env.VITE_API_HOST_PROD;
 
   const apiHost =
-    mode === "development"
-      ? env.VITE_API_HOST_DEV
-      : env.VITE_API_HOST_PROD || "0.0.0.0";
+    mode === "development" ? env.VITE_API_HOST_DEV : env.VITE_API_HOST_PROD;
   const apiPort =
     mode === "development"
       ? env.VITE_API_PORT_DEV || "7000"
