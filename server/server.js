@@ -8,12 +8,12 @@ import "dotenv/config";
 
 const app = express();
 
+app.use(cors(corsOptions));
+
 const host =
   process.env.NODE_ENV === "development" ? process.env.HOST : "0.0.0.0";
 
 const port = process.env.PORT || 7000;
-
-app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "development") {
   console.log("Environment:", process.env.NODE_ENV);
