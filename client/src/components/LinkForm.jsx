@@ -1,192 +1,120 @@
-import { useState, useRef } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for Toastify
 import {
-  BadgeCheck,
+  Link as LinkIcon,
+  ArrowRight,
+  Clipboard,
   ClipboardCheck,
-  ClipboardList,
-  Sparkles,
+  Loader2,
+  AlertTriangle,
 } from "lucide-react";
-
-const getApiBaseUrl = () => {
-  const isDev = import.meta.env.MODE === "development";
-  const host = isDev
-    ? import.meta.env.VITE_API_HOST_DEV
-    : import.meta.env.VITE_API_HOST_PROD;
-
-  const port = isDev
-    ? import.meta.env.VITE_API_PORT_DEV
-    : import.meta.env.VITE_API_PORT_PROD;
-
-  const cleanedHost = host.replace(/\/+$/, "");
-  const hasProtocol = /^https?:\/\//.test(cleanedHost);
-  const fullHost = hasProtocol ? cleanedHost : `http://${cleanedHost}`;
-  const hasPort = port && port !== "443" && port !== "80";
-
-  return `${fullHost}${hasPort ? `:${port}` : ""}/api`;
-};
-
-const API_BASE = getApiBaseUrl();
+import { useLinkGenerator } from "./hooks/useLinkGenerator"; // Adjust path as needed
 
 const LinkForm = () => {
-  const [viewUrl, setViewUrl] = useState("");
-  const [generatedLink, setGeneratedLink] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [error, setError] = useState("");
+  // All the complex logic is now contained in this single line!
+  const {
+    viewUrl,
+    setViewUrl,
+    generatedLink,
+    isLoading,
+    error,
+    setError,
+    copied,
+    inputRef,
+    generateLink,
+    copyLink,
+    reset,
+  } = useLinkGenerator();
 
-  const inputRef = useRef(null);
-
-  const customId = "custom-id-yes";
-
-  const handleGenerateLink = async () => {
-    const isValidDriveUrl =
-      /^(https:\/\/)?(drive\.google\.com\/(file\/d\/|open\?id=))/.test(
-        viewUrl.trim()
-      );
-    if (!viewUrl.trim() || !isValidDriveUrl) {
-      setError("Please enter a valid Google Drive view URL.");
-      return;
-    }
-
-    setError("");
-    setIsLoading(true);
-    setGeneratedLink("");
-
-    try {
-      const response = await axios.post(
-        `${API_BASE}/convert`,
-        { viewUrl },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      setGeneratedLink(response.data.remoteUploadLink);
-    } catch (error) {
-      console.error("Error generating link:", error);
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // The component still handles the DOM event itself
+    generateLink(); // Then calls the logic from the hook
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(generatedLink);
-    setCopied(true);
-    inputRef.current?.focus();
-    setTimeout(() => setCopied(false), 2000);
-    toast(<span className="flex items-center gap-1">Link Copied!</span>, {
-      toastId: customId,
-      icon: <BadgeCheck className="stroke-green-500" />,
-      position: "top-center", // Adjust position as needed
-      autoClose: 2000, // Auto close after 2 seconds
-      hideProgressBar: true, // Hide the progress bar (optional)
-      closeOnClick: true, // Close on click (optional)
-      pauseOnHover: false, // No pause on hover
-      draggable: false, // Disable dragging
-      theme: "light", // Light theme for the toast
-    });
-  };
-
-  const baseButton =
-    "px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed";
+  const hasContent = generatedLink || viewUrl;
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 rounded-lg">
-      {!generatedLink ? (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleGenerateLink();
-          }}
-          className="flex flex-col gap-6"
-        >
-          {error && (
-            <span className="text-sm text-red-500 flex items-center gap-1 min-h-[1.5rem] transition-opacity duration-200 animate-fade-in">
-              {error}
-            </span>
-          )}
-
-          <input
-            type="text"
-            value={viewUrl}
-            onChange={(e) => setViewUrl(e.target.value)}
-            placeholder="Paste Google Drive view URL here..."
-            disabled={isLoading}
-            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
-          />
-
-          <button
-            onClick={handleGenerateLink}
-            disabled={isLoading}
-            className={`${baseButton} animate-fadeIn hover:scale-105 shadow-lg hover:shadow-2xl`}
+    <div className="w-full max-w-2xl mx-auto">
+      <form onSubmit={handleFormSubmit}>
+        <div className="relative group">
+          <div
+            className={`
+              relative flex items-center w-full bg-white dark:bg-gray-800/50
+              border-2 rounded-xl shadow-sm transition-all duration-300
+              ${
+                error
+                  ? "border-red-500 ring-4 ring-red-500/10"
+                  : "border-gray-200 dark:border-gray-700"
+              }
+              focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20
+            `}
           >
-            {isLoading ? (
-              <span className="flex items-center gap-1">
-                <svg
-                  className="w-5 h-5 animate-spin text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  ></path>
-                </svg>
-                Generating...
-              </span>
-            ) : (
-              <span className="flex items-center gap-1">
-                <Sparkles />
-                Generate Link
-              </span>
-            )}
-          </button>
-        </form>
-      ) : (
-        <div className="flex flex-col gap-6">
-          <div className="relative">
+            <LinkIcon className="absolute w-5 h-5 text-gray-400 left-4" />
             <input
-              ref={inputRef}
+              ref={inputRef} // Attach the ref from the hook to the input element
               type="text"
-              value={generatedLink}
-              readOnly
-              className="w-full pr-12 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              value={generatedLink || viewUrl}
+              onChange={(e) => {
+                if (!generatedLink) {
+                  setViewUrl(e.target.value);
+                  if (error) setError("");
+                }
+              }}
+              readOnly={!!generatedLink}
+              placeholder="Paste your Google Drive URL to begin..."
+              disabled={isLoading}
+              className="w-full h-14 pl-12 pr-28 sm:pr-40 text-base bg-transparent focus:outline-none text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
-            <button
-              onClick={handleCopyLink}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
-              title="Copy Link"
-            >
-              {copied ? <ClipboardCheck /> : <ClipboardList />}
-            </button>
+            <div className="absolute top-0 right-0 h-full p-2">
+              {generatedLink ? (
+                <button type="button" onClick={copyLink} className="...">
+                  {copied ? (
+                    <ClipboardCheck className="w-5 h-5" />
+                  ) : (
+                    <Clipboard className="w-5 h-5" />
+                  )}
+                  <span className="hidden ml-2 text-sm font-semibold sm:inline">
+                    {copied ? "Copied!" : "Copy"}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={isLoading || !viewUrl}
+                  className="..."
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <ArrowRight className="w-5 h-5" />
+                  )}
+                  <span className="hidden ml-2 text-sm font-semibold sm:inline">
+                    {isLoading ? "Generating..." : "Generate"}
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
 
-          <button
-            onClick={() => {
-              setGeneratedLink("");
-              setViewUrl("");
-            }}
-            className={`${baseButton} animate-fadeIn hover:scale-105 shadow-lg hover:shadow-2xl`}
-          >
-            <span className="flex items-center gap-1">
-              <Sparkles />
-              New Link
-            </span>
-          </button>
+          {hasContent && (
+            <button
+              type="button"
+              onClick={reset}
+              className="..."
+              aria-label="Start over"
+            >
+              Clear
+            </button>
+          )}
         </div>
-      )}
+
+        {error && (
+          <div className="flex items-center gap-2 mt-3 px-3 text-sm text-red-600 dark:text-red-400 animate-fade-in">
+            <AlertTriangle className="w-5 h-5" />
+            <span>{error}</span>
+          </div>
+        )}
+      </form>
     </div>
   );
 };
 
-export default LinkForm;
+export default LinkForm; // Assuming this is now in its own file

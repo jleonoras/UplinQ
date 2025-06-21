@@ -1,31 +1,29 @@
+import { Rocket } from "lucide-react";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const toYear = currentYear; // Initialize toYear
-  const fromYear = 2025;
-  const myCopyright = "UpLinQ";
-  const copyrightDescription = "All rights reserved.";
-
-  // Conditionally determine the footer text
-  const footerText = (
-    <>
-      © {fromYear === toYear ? fromYear : `${fromYear} - ${toYear}`}{" "}
-      <span className="font-semibold text-blue-700 dark:text-blue-300 hover:underline cursor-pointer transition-all duration-300">
-        {myCopyright}
-      </span>
-      {". "}
-      {copyrightDescription}
-    </>
-  );
-
-  const containerClass =
-    "flex items-center justify-center px-4 py-6 bg-gray-100 dark:bg-gray-700";
-  const contentClass =
-    "w-full sm:w-[90%] md:w-[80%] lg:w-[60%] text-center text-gray-600 dark:text-gray-400 text-sm";
 
   return (
-    <footer className={containerClass}>
-      <div className={contentClass}>
-        <div>{footerText}</div>
+    // 1. Use a background color and top border that match the Home page's sections
+    <footer className="bg-white dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
+      {/* 2. Use the same max-width and padding for consistent layout */}
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Copyright Text */}
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
+            &copy; {currentYear} <span className="font-semibold">UplinQ.</span>{" "}
+            All rights reserved.
+          </p>
+
+          {/* 3. Re-introduce the brand icon and use the correct 'indigo' accent color */}
+          <a
+            href="/"
+            className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+          >
+            <Rocket className="w-5 h-5 text-indigo-500" />
+            <span className="font-semibold">Powered by UplinQ</span>
+          </a>
+        </div>
       </div>
     </footer>
   );
