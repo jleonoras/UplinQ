@@ -13,6 +13,7 @@ import {
 } from "lucide-react"; // Import HelpCircle
 import LinkForm from "../components/LinkForm";
 import FeatureCard from "../components/FeatureCard";
+import Footer from "../components/Footer";
 import HowToModal from "../components/HowToModal"; // Import the modal component
 import { containerVariants, itemVariants } from "../utils/animations";
 
