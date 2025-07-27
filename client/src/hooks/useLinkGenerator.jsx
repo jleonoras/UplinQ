@@ -51,7 +51,6 @@ export const useLinkGenerator = () => {
     try {
       navigator.clipboard.writeText(generatedLink);
       setCopied(true);
-      // inputRef.current?.select();
 
       // Use our new notification system instead of react-toastify.
       showNotification("Link Copied!", "success");
