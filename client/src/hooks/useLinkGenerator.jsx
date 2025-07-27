@@ -47,12 +47,17 @@ export const useLinkGenerator = () => {
   // Handles copying the generated link to the user's clipboard.
   const copyLink = () => {
     if (!generatedLink) return;
-    navigator.clipboard.writeText(generatedLink);
-    setCopied(true);
-    inputRef.current?.select();
 
-    // Use our new notification system instead of react-toastify.
-    showNotification("Link Copied!", "success");
+    try {
+      navigator.clipboard.writeText(generatedLink);
+      setCopied(true);
+
+      // Use our new notification system instead of react-toastify.
+      showNotification("Link Copied!", "success");
+    } catch (error) {
+      showNotification("Failed to copy link.", "error");
+      console.error("Clipboard error:", error);
+    }
 
     // Reset the copied state after 2 seconds.
     setTimeout(() => setCopied(false), 2000);
