@@ -42,7 +42,7 @@ const Home = () => {
 
 	return (
 		// The main background is now white, providing a clean base.
-		<div className="min-h-screen flex flex-col font-sans bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+		<div className="flex flex-col font-sans bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 			<main className="flex-grow">
 				<section className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-8 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
 					<motion.div
