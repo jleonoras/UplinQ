@@ -60,41 +60,43 @@ const LinkForm = () => {
 								}
 							}}
 							readOnly={!!generatedLink}
-							placeholder="Paste a link to begin..."
+							placeholder="Paste Drive link..."
 							disabled={isLoading}
-							className="w-full h-14 pl-14 pr-16 text-base bg-transparent focus:outline-none text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+							className="w-full h-14 pl-14 pr-32 text-base bg-transparent focus:outline-none text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
 						/>
 						{/* Action Button Area - more uniform button styles */}
-						<div className="absolute top-1/2 right-2 -translate-y-1/2 h-10 w-10">
+						<div className="absolute top-1/2 right-2 -translate-y-1/2 h-10">
 							{generatedLink ? (
 								// Copy button
 								<button
 									type="button"
 									onClick={copyLink}
-									className={`h-full w-full flex items-center justify-center rounded-full transition-colors duration-200 ${
+									className={`flex h-full items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors duration-200 ${
 										copied
 											? "bg-green-500 text-white"
 											: "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600"
 									}`}
 									aria-label="Copy link">
 									{copied ? (
-										<Check className="w-5 h-5" />
+										<Check className="h-4 w-4" />
 									) : (
-										<Clipboard className="w-5 h-5" />
+										<Clipboard className="h-4 w-4" />
 									)}
+									<span>{copied ? "Copied" : "Copy"}</span>
 								</button>
 							) : (
 								// Generate button
 								<button
 									type="submit"
 									disabled={isLoading || !viewUrl}
-									className="h-full w-full flex items-center justify-center rounded-full bg-gray-200 text-gray-500 transition-colors duration-200 dark:bg-gray-700 dark:text-gray-400 enabled:hover:bg-indigo-500 enabled:hover:text-white dark:enabled:hover:bg-indigo-500 disabled:cursor-not-allowed"
+									className="flex h-full items-center justify-center gap-2 rounded-full bg-indigo-600 px-4 text-sm font-semibold text-white transition-colors duration-200 hover:bg-indigo-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-500 dark:disabled:bg-gray-700 dark:disabled:text-gray-400"
 									aria-label="Generate link">
 									{isLoading ? (
-										<Loader2 className="w-5 h-5 animate-spin" />
+										<Loader2 className="h-4 w-4 animate-spin" />
 									) : (
-										<ArrowUp className="w-5 h-5" />
+										<ArrowUp className="h-4 w-4" />
 									)}
+									<span>{isLoading ? "Converting" : "Convert"}</span>
 								</button>
 							)}
 						</div>
