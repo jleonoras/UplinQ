@@ -45,7 +45,11 @@ app.get("/", (req, res) => {
 app.use("/api/health", healthRoutes);
 app.use("/api/convert", convertRoutes);
 
-if (process.argv[1] && process.argv[1].endsWith("server.js")) {
+const isServerEntrypoint =
+	process.argv[1]?.endsWith("server.js") ||
+	process.env.pm_exec_path?.endsWith("server.js");
+
+if (isServerEntrypoint) {
 	app.listen(port, host, () => {
 		console.log(`Server has started and running on ${host}:${port}`);
 	});

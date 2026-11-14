@@ -35,7 +35,18 @@ export const scrape = async (downloadUrl) => {
 			"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
 		);
 
-		await page.goto(downloadUrl, { waitUntil: "networkidle0", timeout: 15000 });
+		await page.goto(downloadUrl, {
+			waitUntil: "domcontentloaded",
+			timeout: 15000,
+		});
+		await page.waitForFunction(
+			() => {
+				const confirm = document.querySelector('input[name="confirm"]');
+				const uuid = document.querySelector('input[name="uuid"]');
+				return Boolean(confirm?.value && uuid?.value);
+			},
+			{ timeout: 10000 },
+		);
 
 		const fileValues = await page.evaluate(() => {
 			const nameData = ["id", "export", "authuser", "confirm", "uuid", "at"];
