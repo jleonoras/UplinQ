@@ -8,27 +8,45 @@ import "dotenv/config";
 
 const app = express();
 
+export const resolveServerHost = (
+	host = process.env.HOST,
+	environment = process.env.NODE_ENV,
+) => {
+	if (typeof host === "string" && host.trim()) {
+		return host;
+	}
+
+	return environment === "development" ? "0.0.0.0" : "0.0.0.0";
+};
+
 app.use(cors(corsOptions));
 
-const host =
-  process.env.NODE_ENV === "development" ? process.env.HOST : "0.0.0.0";
-
+const host = resolveServerHost();
 const port = process.env.PORT || 7000;
 
 if (process.env.NODE_ENV === "development") {
-  console.log("Environment:", process.env.NODE_ENV);
+	console.log("Environment:", process.env.NODE_ENV);
 
-  app.use(handleCorsError);
-  app.use(logRequests);
+	app.use(handleCorsError);
+	app.use(logRequests);
 }
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/health", healthRoutes);
+app.get("/", (req, res) => {
+	res.status(200).json({
+		status: "ok",
+		service: "uplinq",
+		environment: process.env.NODE_ENV || "development",
+	});
+});
 
+app.use("/api/health", healthRoutes);
 app.use("/api/convert", convertRoutes);
 
-app.listen(port, host, () => {
-  console.log(`Server has started and running on ${host}:${port}`);
-});
+if (process.argv[1] && process.argv[1].endsWith("server.js")) {
+	app.listen(port, host, () => {
+		console.log(`Server has started and running on ${host}:${port}`);
+	});
+}
