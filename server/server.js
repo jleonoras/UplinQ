@@ -7,6 +7,7 @@ import { logRequests, handleCorsError } from "./middleware/devLogger.js";
 import "dotenv/config";
 
 const app = express();
+app.set("trust proxy", "loopback");
 
 export const resolveServerHost = (
 	host = process.env.HOST,
